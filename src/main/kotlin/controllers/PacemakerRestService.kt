@@ -61,4 +61,41 @@ class PacemakerRestService {
 		pacemaker.deleteActivities(id!!);
 		ctx.status(204)
 	}
+
+	fun findActivity(ctx: Context): Activity? {
+		val id: String? = ctx.param("id")
+		val user = pacemaker.getUser(id!!)
+		if (user == null) {
+			ctx.result("user id not found")
+			ctx.status(404)
+			return null
+		}
+		val activityId: String? = ctx.param("activityId")
+		val activity = user.activities.get(activityId!!)
+		if (activity == null) {
+			ctx.result("no activity id associated with that user")
+			ctx.status(404)
+			return null
+		}
+		return activity
+	}
+
+	fun addLocation(ctx: Context) {
+		val activity = findActivity(ctx)
+		if (activity == null) {
+			return
+		}
+		val location = ctx.bodyAsClass(Location::class.java)
+		activity.route.add(location)
+		ctx.json(activity)
+	}
+
+	fun getActivityLocations(ctx: Context) {
+		val activity = findActivity(ctx)
+		if (activity == null) {
+			return
+		}
+		ctx.json(activity.route)
+	}
+
 }
