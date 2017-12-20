@@ -1,5 +1,6 @@
 package test.models
 
+import models.Location
 import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -10,13 +11,13 @@ import org.junit.Before
 import org.junit.Test
 
 class LocationTest {
-	var user = User()
-	var user2 = User()
+	var location = Location()
+	var location2 = Location()
 
 	@Before
 	fun setup() {
-		user = User()
-		user2 = User()
+		location = Location()
+		location2 = Location()
 	}
 
 	@After
@@ -25,42 +26,34 @@ class LocationTest {
 
 	@Test
 	fun constructorDefault() {
-		val user3 = User()
-		user3.id = "123"
-		assertEquals(user3.id, "123")
+		val location3 = Location()
 
-		assertEquals(user.firstname, "")
-		assertEquals(user.lastname, "")
-		assertEquals(user.email, "")
-		assertEquals(user.password, "")
-
-		// just exercise the accessor for id
-		val id = user.id
-		val activities = user.activities
+		assertEquals(0.0, location.latitude, 0.01)
+		assertEquals(0.0, location.longitude, 0.01)
 	}
 
 	@Test
 	fun testToString() {
-		assertEquals("User(firstname=, lastname=, email=, password=, id=" + user.id + ", activities={})", user.toString())
+		assertEquals("Location(latitude=0.0, longitude=0.0)", location.toString())
 	}
 
 	@Test
 	fun useEquals() {
-		assertEquals(user, user)
-		assertNotEquals(user, user2)
-		assertFalse(user.equals(user2))
-		assertTrue(user.equals(user))
+		assertEquals(location, location)
+		assertEquals(location, location2)
+		assertTrue(location.equals(location2))
+		assertTrue(location.equals(location))
 		val wrongObjectType = Any()
-		assertFalse(user.equals(wrongObjectType))
+		assertFalse(location.equals(wrongObjectType))
 	}
 
 	@Test
 	fun useCopy() {
-		val user3 = user.copy()
+		val location3 = location.copy()
 	}
 
 	@Test
 	fun useHashCode() {
-		val code = user.hashCode()
+		val code = location.hashCode()
 	}
 }

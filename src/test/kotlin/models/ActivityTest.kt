@@ -1,5 +1,6 @@
 package test.models
 
+import models.Activity
 import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -10,13 +11,13 @@ import org.junit.Before
 import org.junit.Test
 
 class ActivityTest {
-	var user = User()
-	var user2 = User()
+	var activity = Activity()
+	var activity2 = Activity()
 
 	@Before
 	fun setup() {
-		user = User()
-		user2 = User()
+		activity = Activity()
+		activity2 = Activity()
 	}
 
 	@After
@@ -25,42 +26,46 @@ class ActivityTest {
 
 	@Test
 	fun constructorDefault() {
-		val user3 = User()
-		user3.id = "123"
-		assertEquals(user3.id, "123")
+		val activity3 = Activity()
+		activity3.id = "123"
+		activity3.type = "aType"
+		activity3.location = "ALocation"
+		activity3.distance = 1.2f
+		assertEquals(activity3.id, "123")
+		assertEquals(activity3.type, "aType")
+		assertEquals(activity3.location, "ALocation")
 
-		assertEquals(user.firstname, "")
-		assertEquals(user.lastname, "")
-		assertEquals(user.email, "")
-		assertEquals(user.password, "")
+		assertEquals(activity.type, "")
+		assertEquals(activity.location, "")
+		assertEquals(0.0f, activity.distance, 0.01f)
 
 		// just exercise the accessor for id
-		val id = user.id
-		val activities = user.activities
+		val id = activity.id
+		val route = activity.route
 	}
 
 	@Test
 	fun testToString() {
-		assertEquals("User(firstname=, lastname=, email=, password=, id=" + user.id + ", activities={})", user.toString())
+		assertEquals("Activity(type=, location=, distance=0.0, id=" + activity.id + ", route=[])", activity.toString())
 	}
 
 	@Test
 	fun useEquals() {
-		assertEquals(user, user)
-		assertNotEquals(user, user2)
-		assertFalse(user.equals(user2))
-		assertTrue(user.equals(user))
+		assertEquals(activity, activity)
+		assertNotEquals(activity, activity2)
+		assertFalse(activity.equals(activity2))
+		assertTrue(activity.equals(activity))
 		val wrongObjectType = Any()
-		assertFalse(user.equals(wrongObjectType))
+		assertFalse(activity.equals(wrongObjectType))
 	}
 
 	@Test
 	fun useCopy() {
-		val user3 = user.copy()
+		val activity3 = activity.copy()
 	}
 
 	@Test
 	fun useHashCode() {
-		val code = user.hashCode()
+		val code = activity.hashCode()
 	}
 }
