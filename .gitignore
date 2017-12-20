@@ -1,1 +1,4 @@
 /target/
+/index.html - Shortcut.lnk
+/mvn clean.bat
+/mvn coverageReport.bat
