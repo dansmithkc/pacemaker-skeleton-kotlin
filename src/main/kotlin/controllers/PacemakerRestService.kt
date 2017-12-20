@@ -8,7 +8,7 @@ import models.User
 class PacemakerRestService {
 	val pacemaker = PacemakerAPI()
 
-	fun listUsers(ctx: Context) {
+	fun listUsers(ctx: ContextWrapper) {
 		ctx.json(pacemaker.users)
 	}
 
