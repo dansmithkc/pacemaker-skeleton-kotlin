@@ -10,8 +10,8 @@ import org.junit.Before
 import org.junit.Test
 
 class UserTest {
-	var user = User()
-	var user2 = User()
+	lateinit var user: User
+	lateinit var user2: User
 
 	@Before
 	fun setup() {

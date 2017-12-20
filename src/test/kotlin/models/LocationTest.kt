@@ -11,8 +11,8 @@ import org.junit.Before
 import org.junit.Test
 
 class LocationTest {
-	var location = Location()
-	var location2 = Location()
+	lateinit var location: Location
+	lateinit var location2: Location
 
 	@Before
 	fun setup() {

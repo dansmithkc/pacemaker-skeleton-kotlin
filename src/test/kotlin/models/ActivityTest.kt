@@ -11,8 +11,8 @@ import org.junit.Before
 import org.junit.Test
 
 class ActivityTest {
-	var activity = Activity()
-	var activity2 = Activity()
+	lateinit var activity: Activity
+	lateinit var activity2: Activity
 
 	@Before
 	fun setup() {

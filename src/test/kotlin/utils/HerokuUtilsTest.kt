@@ -8,7 +8,7 @@ import utils.HerokuUtils
 
 class HerokuUtilsTest {
 
-	var herokuUtils = HerokuUtils()
+	lateinit var herokuUtils: HerokuUtils
 
 	@Before
 	fun setup() {
