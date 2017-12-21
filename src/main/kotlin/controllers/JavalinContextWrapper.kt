@@ -8,4 +8,8 @@ class JavalinContextWrapper(val context: Context) : ContextWrapper {
 		context.json(theObject)
 	}
 
+	override fun <T> bodyAsClass(theClass: Class<T>): T {
+		return context.bodyAsClass(theClass)
+	}
+
 }

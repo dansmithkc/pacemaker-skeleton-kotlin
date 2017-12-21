@@ -1,12 +1,27 @@
 package controllers
 
-import io.javalin.Context
+import models.User
 
 class TestContextWrapper() : ContextWrapper {
-	var result = "";
+	var result = ""
+	var returnedUser: User = User()
 
 	override fun json(theObject: Any) {
 		result = theObject.toString()
+	}
+
+	override fun <T> bodyAsClass(theClass: Class<T>): T {
+		var theObject = theClass.newInstance()
+
+		if (theObject is User) {
+			theObject.firstname = returnedUser.firstname
+			theObject.lastname = returnedUser.lastname
+			theObject.email = returnedUser.email
+			theObject.password = returnedUser.password
+			theObject.id = returnedUser.id
+		}
+
+		return theObject
 	}
 
 }

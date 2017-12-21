@@ -12,7 +12,7 @@ class PacemakerRestService {
 		ctx.json(pacemaker.users)
 	}
 
-	fun createUser(ctx: Context) {
+	fun createUser(ctx: ContextWrapper) {
 		val user = ctx.bodyAsClass(User::class.java)
 		val newUser = pacemaker.createUser(user.firstname, user.lastname, user.email, user.password)
 		ctx.json(newUser)

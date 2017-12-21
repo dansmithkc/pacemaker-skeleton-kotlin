@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
 
 fun configRoutes(app: Javalin, service: PacemakerRestService) {
 	app.get("/users") { ctx -> service.listUsers(JavalinContextWrapper(ctx)) }
-	app.post("/users") { ctx -> service.createUser(ctx) }
+	app.post("/users") { ctx -> service.createUser(JavalinContextWrapper(ctx)) }
 	app.delete("/users") { ctx -> service.deleteUsers(ctx) }
 	app.get("/users/:id/activities") { ctx -> service.getActivities(ctx) }
 	app.get("/users/:id/activities/:activityId") { ctx -> service.getActivity(ctx) }
