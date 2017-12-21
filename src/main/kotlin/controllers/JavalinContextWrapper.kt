@@ -12,4 +12,8 @@ class JavalinContextWrapper(val context: Context) : ContextWrapper {
 		return context.bodyAsClass(theClass)
 	}
 
+	override fun status(code: Int) {
+		context.status(code)
+	}
+
 }

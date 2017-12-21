@@ -4,6 +4,7 @@ import models.User
 
 class TestContextWrapper() : ContextWrapper {
 	var result = ""
+	var status = 0
 	var returnedUser: User = User()
 
 	override fun json(theObject: Any) {
@@ -24,4 +25,7 @@ class TestContextWrapper() : ContextWrapper {
 		return theObject
 	}
 
+	override fun status(code: Int) {
+		status = code
+	}
 }

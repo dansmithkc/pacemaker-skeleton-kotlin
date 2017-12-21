@@ -18,7 +18,7 @@ class PacemakerRestService {
 		ctx.json(newUser)
 	}
 
-	fun deleteUsers(ctx: Context) {
+	fun deleteUsers(ctx: ContextWrapper) {
 		pacemaker.deleteUsers()
 		ctx.status(200)
 	}
