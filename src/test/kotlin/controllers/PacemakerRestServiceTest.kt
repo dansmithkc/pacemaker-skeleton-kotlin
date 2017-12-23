@@ -1,11 +1,12 @@
 package controllers
 
+import models.Activity
+import models.Fixtures
 import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import models.Fixtures
 
 class PacemakerRestServiceTest {
 	lateinit var service: PacemakerRestService
@@ -81,15 +82,86 @@ class PacemakerRestServiceTest {
 	@Test
 	fun testGetActivitiesNoneForUser() {
 		// Setup
-		context.returnedUser = fixtures.users[3]
-		service.createUser(context)
-		service.listUsers(context)
-		var id = findIdInResult(context.result)
+		var id = setupCreateUser()
 		context.params.put("id", id)
 		// Exercise
 		service.getActivities(context)
 		// Verify
 		assertEquals("{}", context.result)
+	}
+
+	@Test
+	fun testCreateActivity() {
+		// Setup
+		var id = setupCreateUser()
+		context.params.put("id", id)
+		context.returnedActivity = fixtures.activities[0]
+		// Exercise
+		service.createActivity(context)
+		// Verify
+		var truncatedResult = context.result.substring(0, context.result.indexOf(", id"))
+		assertEquals("Activity(type=walk, location=fridge, distance=0.001", truncatedResult)
+	}
+
+	@Test
+	fun testGetActivitiesNoUser() {
+		// Setup
+		context.params.put("id", "invalidUserId")
+		// Exercise
+		service.getActivities(context)
+		// Verify
+		assertEquals(404, context.status)
+	}
+
+	@Test
+	fun testCreateActivityNoUser() {
+		// Setup
+		context.params.put("id", "invalidUserId")
+		// Exercise
+		service.createActivity(context)
+		// Verify
+		assertEquals(404, context.status)
+	}
+
+	@Test
+	fun testDeleteActivitiesNoneForUser() {
+		// Setup
+		var id = setupCreateUser()
+		context.params.put("id", id)
+		// Exercise
+		service.deleteActivities(context)
+		// Verify
+		assertEquals(204, context.status)
+		service.getActivities(context)
+		assertEquals("{}", context.result)
+	}
+
+	@Test
+	fun testDeleteActivitiesOneForUser() {
+		// Setup
+		var userId = setupCreateUser()
+		setupCreateActivity(userId)
+		context.params.put("id", userId)
+		// Exercise
+		service.deleteActivities(context)
+		// Verify
+		assertEquals(204, context.status)
+		service.getActivities(context)
+		assertEquals("{}", context.result)
+	}
+
+	fun setupCreateUser(user: User = fixtures.users[3]): String {
+		context.returnedUser = user
+		service.createUser(context)
+		service.listUsers(context)
+		return findIdInResult(context.result)
+	}
+
+	fun setupCreateActivity(userId: String, activity: Activity = fixtures.activities[0]): String {
+		context.params.put("id", userId)
+		context.returnedActivity = activity
+		service.createActivity(context)
+		return findIdInResult(context.result)
 	}
 
 	fun findIdInResult(result: String): String {

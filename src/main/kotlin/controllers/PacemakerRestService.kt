@@ -33,7 +33,7 @@ class PacemakerRestService {
 		}
 	}
 
-	fun createActivity(ctx: Context) {
+	fun createActivity(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
 		val user = pacemaker.getUser(id!!)
 		if (user != null) {
@@ -45,7 +45,7 @@ class PacemakerRestService {
 		}
 	}
 
-	fun deleteActivites(ctx: Context) {
+	fun deleteActivities(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
 		pacemaker.deleteActivities(id!!);
 		ctx.status(204)
