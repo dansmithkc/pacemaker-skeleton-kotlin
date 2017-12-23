@@ -1,6 +1,5 @@
 package models
 
-import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -37,6 +36,15 @@ class UserTest {
 		// just exercise the accessor for id
 		val id = user.id
 		val activities = user.activities
+	}
+
+	@Test
+	fun setters() {
+		user.id = "234"
+		user.firstname = "joe"
+		user.lastname = "reynolds"
+		user.email = "a@b.c"
+		user.password = "not a secret"
 	}
 
 	@Test
