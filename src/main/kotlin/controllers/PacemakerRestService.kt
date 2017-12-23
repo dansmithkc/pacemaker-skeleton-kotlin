@@ -1,6 +1,5 @@
 package controllers
 
-import io.javalin.Context
 import models.Activity
 import models.Location
 import models.User
@@ -51,7 +50,15 @@ class PacemakerRestService {
 		ctx.status(204)
 	}
 
-	fun getActivity(ctx: ContextWrapper): Activity? {
+	fun getActivity(ctx: ContextWrapper) {
+		val activity = getActivityImpl(ctx)
+		if (activity == null) {
+			return
+		}
+		ctx.json(activity)
+	}
+
+	fun getActivityImpl(ctx: ContextWrapper): Activity? {
 		val id: String? = ctx.param("id")
 		val user = pacemaker.getUser(id!!)
 		if (user == null) {
@@ -70,7 +77,7 @@ class PacemakerRestService {
 	}
 
 	fun addLocation(ctx: ContextWrapper) {
-		val activity = getActivity(ctx)
+		val activity = getActivityImpl(ctx)
 		if (activity == null) {
 			return
 		}
@@ -80,7 +87,7 @@ class PacemakerRestService {
 	}
 
 	fun getActivityLocations(ctx: ContextWrapper) {
-		val activity = getActivity(ctx)
+		val activity = getActivityImpl(ctx)
 		if (activity == null) {
 			return
 		}

@@ -170,4 +170,63 @@ class PacemakerRestServiceTestActivity {
 		assertTrue(true)
 	}
 
+	@Test
+	fun testGetActivityNoActivity() {
+		// Setup
+		var userId = utility.setupCreateUser()
+		context.params.put("id", userId)
+		context.params.put("activityId", "no such activity")
+		// Exercise
+		service.getActivity(context)
+		// Verify
+		assertEquals(404, context.status)
+		assertEquals("no activity id associated with that user", context.resultText)
+	}
+
+	@Test
+	fun testGetActivityNullActivity() {
+		// Setup
+		var userId = utility.setupCreateUser()
+		context.params.put("id", userId)
+		// Exercise
+		try {
+			service.getActivity(context)
+			fail("Did not throw an exception on a null activity")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+		assertTrue(true)
+	}
+
+	@Test
+	fun testGetActivityOneActivity() {
+		// Setup
+		var userId = utility.setupCreateUser()
+		var activityId = utility.setupCreateActivity(userId)
+		context.params.put("id", userId)
+		context.params.put("activityId", activityId)
+		// Exercise
+		service.getActivity(context)
+		// Verify
+		var truncatedResult = context.json.substring(0, context.json.indexOf(", id"))
+		assertEquals("Activity(type=walk, location=fridge, distance=0.001", truncatedResult)
+	}
+
+	@Test
+	fun testGetActivityTwoActivities() {
+		// Setup
+		var userId = utility.setupCreateUser()
+		var activityId1 = utility.setupCreateActivity(userId, fixtures.activities[0])
+		var activityId2 = utility.setupCreateActivity(userId, fixtures.activities[1])
+		context.params.put("id", userId)
+		context.params.put("activityId", activityId1)
+		// Exercise
+		service.getActivity(context)
+		// Verify
+		var truncatedResult = context.json.substring(0, context.json.indexOf(", id"))
+		assertEquals("Activity(type=walk, location=fridge, distance=0.001", truncatedResult)
+	}
+
+
 }
+
