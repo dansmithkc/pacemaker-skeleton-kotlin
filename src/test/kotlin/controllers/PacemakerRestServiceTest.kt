@@ -5,6 +5,7 @@ import models.Fixtures
 import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +31,7 @@ class PacemakerRestServiceTest {
 		// Exercise
 		service.listUsers(context)
 		// Verify
-		assertEquals("[]", context.result)
+		assertEquals("[]", context.json)
 	}
 
 	@Test
@@ -41,7 +42,7 @@ class PacemakerRestServiceTest {
 		service.createUser(context)
 		// Verify
 		// remove the ID since we cannot match on that
-		var truncatedResult = context.result.substring(0, context.result.indexOf(", id"))
+		var truncatedResult = context.json.substring(0, context.json.indexOf(", id"))
 		assertEquals("User(firstname=marge, lastname=simpson, email=marge@simpson.com, password=secret", truncatedResult)
 	}
 
@@ -53,7 +54,7 @@ class PacemakerRestServiceTest {
 		// Exercise
 		service.listUsers(context)
 		// Verify
-		var truncatedResult = context.result.substring(0, context.result.indexOf(", id"))
+		var truncatedResult = context.json.substring(0, context.json.indexOf(", id"))
 		assertEquals("[User(firstname=lisa, lastname=simpson, email=lisa@simpson.com, password=secret", truncatedResult)
 	}
 
@@ -77,7 +78,7 @@ class PacemakerRestServiceTest {
 		// Exercise
 		service.listUsers(context)
 		// Verify
-		assertEquals("[]", context.result)
+		assertEquals("[]", context.json)
 	}
 
 	@Test
@@ -88,7 +89,7 @@ class PacemakerRestServiceTest {
 		// Exercise
 		service.getActivities(context)
 		// Verify
-		assertEquals("{}", context.result)
+		assertEquals("{}", context.json)
 	}
 
 	@Test
@@ -100,7 +101,7 @@ class PacemakerRestServiceTest {
 		// Exercise
 		service.createActivity(context)
 		// Verify
-		var truncatedResult = context.result.substring(0, context.result.indexOf(", id"))
+		var truncatedResult = context.json.substring(0, context.json.indexOf(", id"))
 		assertEquals("Activity(type=walk, location=fridge, distance=0.001", truncatedResult)
 	}
 
@@ -123,6 +124,7 @@ class PacemakerRestServiceTest {
 		} catch (e: NullPointerException) {
 			// Success because it threw an exception
 		}
+		assertTrue(true)
 	}
 
 	@Test
@@ -144,6 +146,7 @@ class PacemakerRestServiceTest {
 		} catch (e: NullPointerException) {
 			// Success because it threw an exception
 		}
+		assertTrue(true)
 	}
 
 	@Test
@@ -156,7 +159,7 @@ class PacemakerRestServiceTest {
 		// Verify
 		assertEquals(204, context.status)
 		service.getActivities(context)
-		assertEquals("{}", context.result)
+		assertEquals("{}", context.json)
 	}
 
 	@Test
@@ -170,7 +173,7 @@ class PacemakerRestServiceTest {
 		// Verify
 		assertEquals(204, context.status)
 		service.getActivities(context)
-		assertEquals("{}", context.result)
+		assertEquals("{}", context.json)
 	}
 
 	@Test
@@ -180,10 +183,11 @@ class PacemakerRestServiceTest {
 		// Exercise
 		try {
 			service.deleteActivities(context)
-			fail("Did not throw an exception on a null user")
+			fail("Did not throw an exception on an invalid user")
 		} catch (e: IllegalArgumentException) {
 			// Success because it threw an exception
 		}
+		assertTrue(true)
 	}
 
 	@Test
@@ -195,20 +199,44 @@ class PacemakerRestServiceTest {
 		} catch (e: NullPointerException) {
 			// Success because it threw an exception
 		}
+		assertTrue(true)
+	}
+
+	@Test
+	fun testGetActivityNoUser() {
+		// Setup
+		context.params.put("id", "invalidUserId")
+		// Exercise
+		service.getActivity(context)
+		// Verify
+		assertEquals(404, context.status)
+		assertEquals("user id not found", context.resultText)
+	}
+
+	@Test
+	fun testGetActivityNullUser() {
+		// Exercise
+		try {
+			service.getActivity(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+		assertTrue(true)
 	}
 
 	fun setupCreateUser(user: User = fixtures.users[3]): String {
 		context.returnedUser = user
 		service.createUser(context)
 		service.listUsers(context)
-		return findIdInResult(context.result)
+		return findIdInResult(context.json)
 	}
 
 	fun setupCreateActivity(userId: String, activity: Activity = fixtures.activities[0]): String {
 		context.params.put("id", userId)
 		context.returnedActivity = activity
 		service.createActivity(context)
-		return findIdInResult(context.result)
+		return findIdInResult(context.json)
 	}
 
 	fun findIdInResult(result: String): String {

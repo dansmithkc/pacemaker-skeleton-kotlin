@@ -20,4 +20,8 @@ class JavalinContextWrapper(val context: Context) : ContextWrapper {
 		return context.param(name)
 	}
 
+	override fun result(result: String) {
+		context.result(result)
+	}
+
 }

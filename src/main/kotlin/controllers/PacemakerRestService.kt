@@ -51,7 +51,7 @@ class PacemakerRestService {
 		ctx.status(204)
 	}
 
-	fun getActivity(ctx: Context): Activity? {
+	fun getActivity(ctx: ContextWrapper): Activity? {
 		val id: String? = ctx.param("id")
 		val user = pacemaker.getUser(id!!)
 		if (user == null) {
@@ -69,7 +69,7 @@ class PacemakerRestService {
 		return activity
 	}
 
-	fun addLocation(ctx: Context) {
+	fun addLocation(ctx: ContextWrapper) {
 		val activity = getActivity(ctx)
 		if (activity == null) {
 			return
@@ -79,7 +79,7 @@ class PacemakerRestService {
 		ctx.json(activity)
 	}
 
-	fun getActivityLocations(ctx: Context) {
+	fun getActivityLocations(ctx: ContextWrapper) {
 		val activity = getActivity(ctx)
 		if (activity == null) {
 			return

@@ -4,14 +4,15 @@ import models.Activity
 import models.User
 
 class TestContextWrapper() : ContextWrapper {
-	var result = ""
+	var json = ""
 	var status = 0
 	var returnedUser = User()
 	var returnedActivity = Activity()
 	var params = HashMap<String, String>()
+	var resultText = ""
 
 	override fun json(theObject: Any) {
-		result = theObject.toString()
+		json = theObject.toString()
 	}
 
 	override fun <T> bodyAsClass(theClass: Class<T>): T {
@@ -40,4 +41,9 @@ class TestContextWrapper() : ContextWrapper {
 	override fun param(name: String): String? {
 		return params.get(name)
 	}
+
+	override fun result(result: String) {
+		resultText = result
+	}
+
 }
