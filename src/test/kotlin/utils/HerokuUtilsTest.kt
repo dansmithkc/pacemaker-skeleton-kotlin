@@ -1,4 +1,4 @@
-package controllers
+package utils
 
 import org.junit.After
 import org.junit.Assert.assertEquals

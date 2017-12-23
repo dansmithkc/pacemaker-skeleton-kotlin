@@ -1,4 +1,4 @@
-package test.models
+package models
 
 import models.Location
 import models.User
