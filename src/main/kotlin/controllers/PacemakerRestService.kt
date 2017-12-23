@@ -23,18 +23,7 @@ class PacemakerRestService {
 		ctx.status(200)
 	}
 
-	fun getActivity(ctx: Context) {
-		// val userId: String? = ctx.param("id")
-		val activityId: String? = ctx.param("activityId")
-		val activity = pacemaker.getActivity(activityId!!)
-		if (activity != null) {
-			ctx.json(activity)
-		} else {
-			ctx.status(404)
-		}
-	}
-
-	fun getActivities(ctx: Context) {
+	fun getActivities(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
 		val user = pacemaker.getUser(id!!)
 		if (user != null) {
@@ -62,7 +51,7 @@ class PacemakerRestService {
 		ctx.status(204)
 	}
 
-	fun findActivity(ctx: Context): Activity? {
+	fun getActivity(ctx: Context): Activity? {
 		val id: String? = ctx.param("id")
 		val user = pacemaker.getUser(id!!)
 		if (user == null) {
@@ -81,7 +70,7 @@ class PacemakerRestService {
 	}
 
 	fun addLocation(ctx: Context) {
-		val activity = findActivity(ctx)
+		val activity = getActivity(ctx)
 		if (activity == null) {
 			return
 		}
@@ -91,7 +80,7 @@ class PacemakerRestService {
 	}
 
 	fun getActivityLocations(ctx: Context) {
-		val activity = findActivity(ctx)
+		val activity = getActivity(ctx)
 		if (activity == null) {
 			return
 		}

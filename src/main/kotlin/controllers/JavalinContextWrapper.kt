@@ -16,4 +16,8 @@ class JavalinContextWrapper(val context: Context) : ContextWrapper {
 		context.status(code)
 	}
 
+	override fun param(name: String): String? {
+		return context.param(name)
+	}
+
 }

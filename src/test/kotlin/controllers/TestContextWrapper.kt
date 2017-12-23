@@ -5,7 +5,8 @@ import models.User
 class TestContextWrapper() : ContextWrapper {
 	var result = ""
 	var status = 0
-	var returnedUser: User = User()
+	var returnedUser = User()
+	var params = HashMap<String, String>()
 
 	override fun json(theObject: Any) {
 		result = theObject.toString()
@@ -27,5 +28,9 @@ class TestContextWrapper() : ContextWrapper {
 
 	override fun status(code: Int) {
 		status = code
+	}
+
+	override fun param(name: String): String? {
+		return params.get(name)
 	}
 }
