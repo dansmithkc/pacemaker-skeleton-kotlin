@@ -5,6 +5,7 @@ import models.Fixtures
 import models.User
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
@@ -114,6 +115,17 @@ class PacemakerRestServiceTest {
 	}
 
 	@Test
+	fun testGetActivitiesNullUser() {
+		// Exercise
+		try {
+			service.getActivities(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+	}
+
+	@Test
 	fun testCreateActivityNoUser() {
 		// Setup
 		context.params.put("id", "invalidUserId")
@@ -121,6 +133,17 @@ class PacemakerRestServiceTest {
 		service.createActivity(context)
 		// Verify
 		assertEquals(404, context.status)
+	}
+
+	@Test
+	fun testCreateActivityNullUser() {
+		// Exercise
+		try {
+			service.createActivity(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
 	}
 
 	@Test
@@ -148,6 +171,30 @@ class PacemakerRestServiceTest {
 		assertEquals(204, context.status)
 		service.getActivities(context)
 		assertEquals("{}", context.result)
+	}
+
+	@Test
+	fun testDeleteActivitiesNoUser() {
+		// Setup
+		context.params.put("id", "invalidUserId")
+		// Exercise
+		try {
+			service.deleteActivities(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: IllegalArgumentException) {
+			// Success because it threw an exception
+		}
+	}
+
+	@Test
+	fun testDeleteActivitiesNullUser() {
+		// Exercise
+		try {
+			service.deleteActivities(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
 	}
 
 	fun setupCreateUser(user: User = fixtures.users[3]): String {

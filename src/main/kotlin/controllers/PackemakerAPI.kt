@@ -1,8 +1,6 @@
 package controllers
 
-import java.util.UUID;
 import models.Activity
-import models.Location
 import models.User
 
 class PacemakerAPI {
