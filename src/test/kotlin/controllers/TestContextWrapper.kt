@@ -1,6 +1,7 @@
 package controllers
 
 import models.Activity
+import models.Location
 import models.User
 
 class TestContextWrapper() : ContextWrapper {
@@ -8,6 +9,7 @@ class TestContextWrapper() : ContextWrapper {
 	var status = 0
 	var returnedUser = User()
 	var returnedActivity = Activity()
+	var returnedLocation = Location()
 	var params = HashMap<String, String>()
 	var resultText = ""
 
@@ -29,6 +31,10 @@ class TestContextWrapper() : ContextWrapper {
 			theObject.type = returnedActivity.type
 			theObject.location = returnedActivity.location
 			theObject.distance = returnedActivity.distance
+		}
+		if (theObject is Location) {
+			theObject.latitude = returnedLocation.latitude
+			theObject.longitude = returnedLocation.longitude
 		}
 
 		return theObject

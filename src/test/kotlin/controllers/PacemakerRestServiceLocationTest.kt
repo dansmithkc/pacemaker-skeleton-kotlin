@@ -73,10 +73,12 @@ class PacemakerRestServiceLocationTest {
 		var activityId = utility.setupCreateActivity(userId)
 		context.params.put("id", userId)
 		context.params.put("activityId", activityId)
+		context.returnedLocation = fixtures.locations[0]
 		// Exercise
 		service.addLocation(context)
 		// Verify
-		assertEquals("{}", context.json)
+		var truncatedResult = utility.removeIdFromResult(context.json)
+		assertEquals("Activity(type=walk, location=fridge, distance=0.001, id=, route=[Location(latitude=23.3, longitude=33.3)])", truncatedResult)
 	}
 
 	@Test

@@ -28,4 +28,11 @@ class PacemakerRestServiceTestUtilities(
 		return id.substring(0, id.indexOf(","))
 	}
 
+	fun removeIdFromResult(result: String): String {
+		var startOfResult = result.substring(0, result.indexOf(", id=") + 5)
+		var endOfResult = result.substring(result.indexOf(", id=") + 5)
+		endOfResult = endOfResult.substring(endOfResult.indexOf(","))
+		return startOfResult + endOfResult
+	}
+
 }
