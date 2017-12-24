@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class PacemakerRestServiceTestUser {
+class PacemakerRestServiceUserTest {
 	lateinit var service: PacemakerRestService
 	lateinit var context: TestContextWrapper
 	lateinit var fixtures: Fixtures

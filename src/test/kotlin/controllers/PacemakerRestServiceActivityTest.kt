@@ -8,7 +8,7 @@ import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
-class PacemakerRestServiceTestActivity {
+class PacemakerRestServiceActivityTest {
 	lateinit var service: PacemakerRestService
 	lateinit var context: TestContextWrapper
 	lateinit var fixtures: Fixtures
