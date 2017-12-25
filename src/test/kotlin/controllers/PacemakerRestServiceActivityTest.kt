@@ -34,7 +34,7 @@ class PacemakerRestServiceActivityTest {
 		// Exercise
 		service.getActivities(context)
 		// Verify
-		assertEquals("{}", context.json)
+		assertEquals("[]", context.json)
 	}
 
 	@Test
@@ -104,7 +104,7 @@ class PacemakerRestServiceActivityTest {
 		// Verify
 		assertEquals(204, context.status)
 		service.getActivities(context)
-		assertEquals("{}", context.json)
+		assertEquals("[]", context.json)
 	}
 
 	@Test
@@ -118,7 +118,7 @@ class PacemakerRestServiceActivityTest {
 		// Verify
 		assertEquals(204, context.status)
 		service.getActivities(context)
-		assertEquals("{}", context.json)
+		assertEquals("[]", context.json)
 	}
 
 	@Test
