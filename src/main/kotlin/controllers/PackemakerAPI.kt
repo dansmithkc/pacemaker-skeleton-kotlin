@@ -1,6 +1,7 @@
 package controllers
 
 import models.Activity
+import models.Friend
 import models.User
 
 class PacemakerAPI {
@@ -8,6 +9,7 @@ class PacemakerAPI {
 	var userIndex = hashMapOf<String, User>()
 	var emailIndex = hashMapOf<String, User>()
 	var activitiesIndex = hashMapOf<String, Activity>()
+	var friendIndex = listOf<Friend>()
 	var users = userIndex.values
 
 	fun createUser(firstName: String, lastName: String, email: String, password: String): User {
@@ -69,6 +71,10 @@ class PacemakerAPI {
 		}
 
 		return activities;
+	}
+
+	fun followFriend() {
+
 	}
 
 }
