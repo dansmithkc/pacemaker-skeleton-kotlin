@@ -36,6 +36,16 @@ class FriendTest {
 	}
 
 	@Test
+	fun testSetters() {
+		var user = User()
+		friend.followedBy = user
+		friend.following = user
+
+		user = friend.component1()
+		user = friend.component2()
+	}
+
+	@Test
 	fun testToString() {
 		var friendWithoutID = StringTestUtilities.removeIdFromResult(friend.toString())
 		assertEquals("Friend(following=User(firstname=, lastname=, email=, password=, id=, activities={}), followedBy=User(firstname=, lastname=, email=, password=, id=, activities={}))", friendWithoutID)
