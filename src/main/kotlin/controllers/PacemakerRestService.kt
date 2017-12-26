@@ -19,6 +19,7 @@ class PacemakerRestService {
 
 	fun deleteUsers(ctx: ContextWrapper) {
 		pacemaker.deleteUsers()
+		ctx.json("ok")
 		ctx.status(200)
 	}
 
@@ -99,6 +100,7 @@ class PacemakerRestService {
 		val id: String? = ctx.param("id")
 		val friendId: String? = ctx.param("friendId")
 		pacemaker.followFriend(id!!, friendId!!)
+		ctx.json("ok")
 		ctx.status(200)
 	}
 

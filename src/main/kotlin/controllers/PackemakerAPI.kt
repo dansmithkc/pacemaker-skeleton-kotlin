@@ -8,7 +8,7 @@ class PacemakerAPI {
 	var userIndex = hashMapOf<String, User>()
 	var emailIndex = hashMapOf<String, User>()
 	var activitiesIndex = hashMapOf<String, Activity>()
-	var friendIndex = hashMapOf<String, ArrayList<User>>()
+	var friendIndex = hashMapOf<String, HashSet<User>>()
 	var users = userIndex.values
 
 	fun createUser(firstName: String, lastName: String, email: String, password: String): User {
@@ -84,15 +84,19 @@ class PacemakerAPI {
 
 		var friends = friendIndex.get(user.id)
 		if (friends == null) {
-			friends = ArrayList<User>()
+			friends = HashSet<User>()
 			friendIndex.put(user.id, friends)
 		}
 		friends.add(friendUser)
 	}
 
-	fun listFriends(id: String): List<User> {
+	fun listFriends(id: String): ArrayList<User> {
 		var friends = friendIndex.get(id)
-		return friends ?: ArrayList<User>()
+		var result = ArrayList<User>()
+		if (friends != null) {
+			result.addAll(friends)
+		}
+		return result
 	}
 
 }
