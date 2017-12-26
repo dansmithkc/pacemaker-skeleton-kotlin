@@ -20,6 +20,10 @@ class JavalinContextWrapper(val context: Context) : ContextWrapper {
 		return context.param(name)
 	}
 
+	override fun queryParam(name: String): String? {
+		return context.queryParam(name)
+	}
+
 	override fun result(result: String) {
 		context.result(result)
 	}

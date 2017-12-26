@@ -50,4 +50,25 @@ class PacemakerAPI {
 			user.activities.clear();
 		}
 	}
+
+	fun listActivities(id: String, sortBy: String): List<Activity>? {
+		var user = userIndex.get(id)
+		if (user == null) {
+			return null
+		}
+
+		var activities = ArrayList<Activity>()
+		activities.addAll(user.activities.values)
+
+		when {
+			sortBy.equals("type") -> activities.sortBy { it.type }
+			sortBy.equals("location") -> activities.sortBy { it.location }
+			sortBy.equals("distance") -> activities.sortBy { it.distance }
+			else -> {
+			}
+		}
+
+		return activities;
+	}
+
 }

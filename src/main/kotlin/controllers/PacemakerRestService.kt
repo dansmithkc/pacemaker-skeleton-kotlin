@@ -24,9 +24,10 @@ class PacemakerRestService {
 
 	fun getActivities(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
-		val user = pacemaker.getUser(id!!)
-		if (user != null) {
-			ctx.json(user.activities.values)
+		val sortBy: String = ctx.queryParam("sortBy") ?: ""
+		var activities = pacemaker.listActivities(id!!, sortBy)
+		if (activities != null) {
+			ctx.json(activities)
 		} else {
 			ctx.status(404)
 		}

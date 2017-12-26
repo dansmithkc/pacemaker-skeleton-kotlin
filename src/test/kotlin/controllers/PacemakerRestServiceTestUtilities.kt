@@ -29,10 +29,13 @@ class PacemakerRestServiceTestUtilities(
 	}
 
 	fun removeIdFromResult(result: String): String {
-		var startOfResult = result.substring(0, result.indexOf(", id=") + 5)
-		var endOfResult = result.substring(result.indexOf(", id=") + 5)
-		endOfResult = endOfResult.substring(endOfResult.indexOf(","))
-		return startOfResult + endOfResult
+		return result.replace(Regex(", id=.+?,"), ", id=,")
+	}
+
+	fun listOfActivityFields(result: String, fieldName: String): List<String> {
+		return result.split(fieldName)
+				.filterIndexed { index, value -> index > 0 }
+				.map { it.replace(Regex(",.*"), "") }
 	}
 
 }

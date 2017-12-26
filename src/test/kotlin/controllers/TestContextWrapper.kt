@@ -11,6 +11,7 @@ class TestContextWrapper() : ContextWrapper {
 	var returnedActivity = Activity()
 	var returnedLocation = Location()
 	var params = HashMap<String, String>()
+	var queryParams = HashMap<String, String>()
 	var resultText = ""
 
 	override fun json(theObject: Any) {
@@ -46,6 +47,10 @@ class TestContextWrapper() : ContextWrapper {
 
 	override fun param(name: String): String? {
 		return params.get(name)
+	}
+
+	override fun queryParam(name: String): String? {
+		return queryParams.get(name)
 	}
 
 	override fun result(result: String) {

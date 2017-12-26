@@ -38,6 +38,69 @@ class PacemakerRestServiceActivityTest {
 	}
 
 	@Test
+	fun testGetActivitiesOne() {
+		// Setup
+		var id = utility.setupCreateUser()
+		context.params.put("id", id)
+		context.returnedActivity = fixtures.activities[0]
+		service.createActivity(context)
+		// Exercise
+		service.getActivities(context)
+		// Verify
+		var truncatedResult = utility.removeIdFromResult(context.json)
+		assertEquals("[Activity(type=walk, location=fridge, distance=0.001, id=, route=[])]", truncatedResult)
+	}
+
+	fun getActivitiesSorted(sortBy: String = "") {
+		// Setup
+		var id = utility.setupCreateUser()
+		context.params.put("id", id)
+		fixtures.activities.forEach {
+			context.returnedActivity = it
+			service.createActivity(context)
+		}
+		context.queryParams.put("sortBy", sortBy)
+		// Exercise
+		service.getActivities(context)
+	}
+
+	@Test
+	fun testGetActivitiesAllNotSorted() {
+		// Setup and Exercise
+		getActivitiesSorted()
+		// Verify
+		var activityTypes = utility.listOfActivityFields(context.json, "type=")
+		assertEquals(5, activityTypes.size)
+	}
+
+	@Test
+	fun testGetActivitiesAllSortByType() {
+		// Setup and Exercise
+		getActivitiesSorted("type")
+		// Verify
+		var activityTypes = utility.listOfActivityFields(context.json, "type=")
+		assertEquals("[cycle, run, walk, walk, walk]", activityTypes.toString())
+	}
+
+	@Test
+	fun testGetActivitiesAllSortByLocation() {
+		// Setup and Exercise
+		getActivitiesSorted("location")
+		// Verify
+		var activityTypes = utility.listOfActivityFields(context.json, "location=")
+		assertEquals("[bar, fridge, school, shop, work]", activityTypes.toString())
+	}
+
+	@Test
+	fun testGetActivitiesAllSortByDistance() {
+		// Setup and Exercise
+		getActivitiesSorted("distance")
+		// Verify
+		var activityTypes = utility.listOfActivityFields(context.json, "distance=")
+		assertEquals("[0.001, 1.0, 2.2, 2.5, 4.5]", activityTypes.toString())
+	}
+
+	@Test
 	fun testCreateActivity() {
 		// Setup
 		var id = utility.setupCreateUser()
@@ -227,6 +290,4 @@ class PacemakerRestServiceActivityTest {
 		assertEquals("Activity(type=walk, location=fridge, distance=0.001", truncatedResult)
 	}
 
-
 }
-
