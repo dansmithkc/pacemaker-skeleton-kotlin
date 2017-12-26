@@ -79,4 +79,61 @@ class PacemakerRestServiceUserTest {
 		assertEquals("[]", context.json)
 	}
 
+	@Test
+	fun testFollowFriend() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+
+		var user2 = fixtures.users[2]
+		context.returnedUser = user2
+		service.createUser(context)
+		var user2Id = StringTestUtilities.findIdInResult(context.json)
+
+		context.params.put("id", user1Id)
+		context.params.put("friendId", user2Id)
+		// Exercise
+		service.followFriend(context)
+		// Verify
+		assertEquals(200, context.status)
+	}
+
+	@Test
+	fun testListFriendsNone() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		context.params.put("id", user1.id)
+		// Exercise
+		service.listFriends(context)
+		// Verify
+		assertEquals("[]", context.json)
+	}
+
+	@Test
+	fun testListFriendsOne() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+
+		var user2 = fixtures.users[2]
+		context.returnedUser = user2
+		service.createUser(context)
+		var user2Id = StringTestUtilities.findIdInResult(context.json)
+
+		context.params.put("id", user1Id)
+		context.params.put("friendId", user2Id)
+		service.followFriend(context)
+		// Exercise
+		service.listFriends(context)
+		// Verify
+		var truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
+		assertEquals("[User(firstname=bart, lastname=simpson, email=bart@simpson.com, password=secret, id=, activities={})]", truncatedResult)
+	}
+
 }

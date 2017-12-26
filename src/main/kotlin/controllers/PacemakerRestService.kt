@@ -95,4 +95,17 @@ class PacemakerRestService {
 		ctx.json(activity.route)
 	}
 
+	fun followFriend(ctx: ContextWrapper) {
+		val id: String? = ctx.param("id")
+		val friendId: String? = ctx.param("friendId")
+		pacemaker.followFriend(id!!, friendId!!)
+		ctx.status(200)
+	}
+
+	fun listFriends(ctx: ContextWrapper) {
+		val id: String? = ctx.param("id")
+		val friends = pacemaker.listFriends(id!!)
+		ctx.json(friends)
+	}
+
 }

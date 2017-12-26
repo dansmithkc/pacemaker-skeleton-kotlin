@@ -21,4 +21,6 @@ fun configRoutes(app: Javalin, service: PacemakerRestService) {
 	app.delete("/users/:id/activities") { ctx -> service.deleteActivities(JavalinContextWrapper(ctx)) }
 	app.get("/users/:id/activities/:activityId/locations") { ctx -> service.getActivityLocations(JavalinContextWrapper(ctx)) }
 	app.post("/users/:id/activities/:activityId/locations") { ctx -> service.addLocation(JavalinContextWrapper(ctx)) }
+	app.get("/users/:id/friends") { ctx -> service.listFriends(JavalinContextWrapper(ctx)) }
+	app.post("/users/:id/friends/:friendId") { ctx -> service.followFriend(JavalinContextWrapper(ctx)) }
 }
