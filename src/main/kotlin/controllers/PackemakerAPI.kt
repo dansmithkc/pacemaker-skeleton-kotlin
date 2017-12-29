@@ -99,4 +99,13 @@ class PacemakerAPI {
 		return result
 	}
 
+	fun unfollowFriends(id: String) {
+		var user = userIndex.get(id)
+		if (user == null) {
+			return
+		}
+		var noFriends = HashSet<User>()
+		friendIndex.put(user.id, noFriends)
+	}
+
 }

@@ -20,7 +20,7 @@ class PacemakerRestService {
 	fun deleteUsers(ctx: ContextWrapper) {
 		pacemaker.deleteUsers()
 		ctx.json("ok")
-		ctx.status(200)
+		ctx.status(204)
 	}
 
 	fun getActivities(ctx: ContextWrapper) {
@@ -49,6 +49,7 @@ class PacemakerRestService {
 	fun deleteActivities(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
 		pacemaker.deleteActivities(id!!);
+		ctx.json("ok")
 		ctx.status(204)
 	}
 
@@ -108,6 +109,13 @@ class PacemakerRestService {
 		val id: String? = ctx.param("id")
 		val friends = pacemaker.listFriends(id!!)
 		ctx.json(friends)
+	}
+
+	fun unfollowFriends(ctx: ContextWrapper) {
+		val id: String? = ctx.param("id")
+		pacemaker.unfollowFriends(id!!)
+		ctx.json("ok")
+		ctx.status(204)
 	}
 
 }

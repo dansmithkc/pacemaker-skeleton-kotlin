@@ -61,7 +61,7 @@ class PacemakerRestServiceUserTest {
 		// Exercise
 		service.deleteUsers(context)
 		// Verify
-		assertEquals(200, context.status)
+		assertEquals(204, context.status)
 	}
 
 	@Test
@@ -72,7 +72,7 @@ class PacemakerRestServiceUserTest {
 		// Exercise
 		service.deleteUsers(context)
 		// Verify
-		assertEquals(200, context.status)
+		assertEquals(204, context.status)
 		// Exercise
 		service.listUsers(context)
 		// Verify
@@ -134,6 +134,57 @@ class PacemakerRestServiceUserTest {
 		// Verify
 		var truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
 		assertEquals("[User(firstname=bart, lastname=simpson, email=bart@simpson.com, password=secret, id=, activities={})]", truncatedResult)
+	}
+
+	@Test
+	fun testUnfollowFriendsNone() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+		context.params.put("id", user1Id)
+
+		// Exercise
+		service.unfollowFriends(context)
+
+		// Verify
+		assertEquals(204, context.status)
+		service.listFriends(context)
+		var truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
+		assertEquals("[]", truncatedResult)
+	}
+
+	@Test
+	fun testUnfollowFriendsOne() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+
+		var user2 = fixtures.users[2]
+		context.returnedUser = user2
+		service.createUser(context)
+		var user2Id = StringTestUtilities.findIdInResult(context.json)
+
+		context.params.put("id", user1Id)
+		context.params.put("friendId", user2Id)
+		service.followFriend(context)
+
+		// Verify Setup
+		service.listFriends(context)
+		var truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
+		assertEquals("[User(firstname=bart, lastname=simpson, email=bart@simpson.com, password=secret, id=, activities={})]", truncatedResult)
+
+		// Exercise
+		service.unfollowFriends(context)
+
+		// Verify
+		assertEquals(204, context.status)
+		service.listFriends(context)
+		truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
+		assertEquals("[]", truncatedResult)
 	}
 
 }
