@@ -2,6 +2,7 @@ package controllers
 
 import models.Activity
 import models.Location
+import models.Message
 import models.User
 
 class TestContextWrapper() : ContextWrapper {
@@ -10,6 +11,7 @@ class TestContextWrapper() : ContextWrapper {
 	var returnedUser = User()
 	var returnedActivity = Activity()
 	var returnedLocation = Location()
+	var returnedMessage = Message()
 	var params = HashMap<String, String>()
 	var queryParams = HashMap<String, String>()
 	var resultText = ""
@@ -36,6 +38,9 @@ class TestContextWrapper() : ContextWrapper {
 		if (theObject is Location) {
 			theObject.latitude = returnedLocation.latitude
 			theObject.longitude = returnedLocation.longitude
+		}
+		if (theObject is Message) {
+			theObject.text = returnedMessage.text
 		}
 
 		return theObject

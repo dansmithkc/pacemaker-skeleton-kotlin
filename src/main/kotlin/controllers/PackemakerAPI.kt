@@ -1,6 +1,7 @@
 package controllers
 
 import models.Activity
+import models.Message
 import models.User
 
 class PacemakerAPI {
@@ -9,6 +10,7 @@ class PacemakerAPI {
 	var emailIndex = hashMapOf<String, User>()
 	var activitiesIndex = hashMapOf<String, Activity>()
 	var friendIndex = hashMapOf<String, HashSet<User>>()
+	var messageIndex = hashMapOf<String, ArrayList<Message>>()
 	var users = userIndex.values
 
 	fun createUser(firstName: String, lastName: String, email: String, password: String): User {
@@ -106,6 +108,32 @@ class PacemakerAPI {
 		}
 		var noFriends = HashSet<User>()
 		friendIndex.put(user.id, noFriends)
+	}
+
+	fun messageFriend(id: String, friendId: String, message: Message) {
+		var friends = friendIndex.get(id)
+		if (friends == null) {
+			return
+		}
+		var friend = friends.filter { it.id.equals(friendId) }
+		if (friend.size == 0) {
+			return
+		}
+		var messages = messageIndex.get(friendId)
+		if (messages == null) {
+			messages = ArrayList<Message>()
+			messageIndex.put(friendId, messages)
+		}
+		messages.add(message)
+	}
+
+	fun listMessages(id: String): ArrayList<Message> {
+		var messages = messageIndex.get(id)
+		var result = ArrayList<Message>()
+		if (messages != null) {
+			result.addAll(messages)
+		}
+		return result
 	}
 
 }

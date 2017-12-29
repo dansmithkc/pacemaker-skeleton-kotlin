@@ -3,6 +3,8 @@ package controllers
 import models.Fixtures
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 
@@ -185,6 +187,82 @@ class PacemakerRestServiceUserTest {
 		service.listFriends(context)
 		truncatedResult = StringTestUtilities.removeIdFromResult(context.json)
 		assertEquals("[]", truncatedResult)
+	}
+
+	@Test
+	fun testFollowFriendNull() {
+		try {
+			service.followFriend(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+		assertTrue(true)
+	}
+
+	@Test
+	fun testFollowFriendNotExisting() {
+		// Setup
+		context.params.put("id", "nobody")
+		context.params.put("friendId", "nobody")
+		// Exercise
+		service.followFriend(context)
+		// Verify
+		assertEquals(200, context.status)
+	}
+
+	@Test
+	fun testFollowFriendNullFriend() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+		context.params.put("id", user1Id)
+		// Exercise
+		try {
+			service.followFriend(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+		assertTrue(true)
+	}
+
+	@Test
+	fun testFollowFriendFriendNotExisting() {
+		// Setup
+		var user1 = fixtures.users[0]
+		context.returnedUser = user1
+		service.createUser(context)
+		var user1Id = StringTestUtilities.findIdInResult(context.json)
+		context.params.put("id", user1Id)
+		context.params.put("friendId", "nobody")
+		// Exercise
+		service.followFriend(context)
+		// Verify
+		assertEquals(200, context.status)
+	}
+
+	@Test
+	fun testUnfollowFriendsNull() {
+		try {
+			service.unfollowFriends(context)
+			fail("Did not throw an exception on a null user")
+		} catch (e: NullPointerException) {
+			// Success because it threw an exception
+		}
+		assertTrue(true)
+	}
+
+	@Test
+	fun testUnfollowFriendsNotExisting() {
+		// Setup
+		context.params.put("id", "nobody")
+		// Exercise
+		service.unfollowFriends(context)
+		// Verify
+		assertEquals(204, context.status)
 	}
 
 }
