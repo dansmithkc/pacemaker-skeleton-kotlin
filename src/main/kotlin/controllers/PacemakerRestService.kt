@@ -2,6 +2,7 @@ package controllers
 
 import models.Activity
 import models.Location
+import models.Message
 import models.User
 
 class PacemakerRestService {
@@ -116,6 +117,21 @@ class PacemakerRestService {
 		pacemaker.unfollowFriends(id!!)
 		ctx.json("ok")
 		ctx.status(204)
+	}
+
+	fun messageFriend(ctx: ContextWrapper) {
+		val id: String? = ctx.param("id")
+		val friendId: String? = ctx.param("friendId")
+		val message = ctx.bodyAsClass(Message::class.java)
+		pacemaker.messageFriend(id!!, friendId!!, message)
+		ctx.json("ok")
+		ctx.status(200)
+	}
+
+	fun listMessages(ctx: ContextWrapper) {
+		val id: String? = ctx.param("id")
+		val messages = pacemaker.listMessages(id!!)
+		ctx.json(messages)
 	}
 
 }
