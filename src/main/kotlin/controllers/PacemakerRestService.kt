@@ -132,6 +132,7 @@ class PacemakerRestService {
 		val id: String? = ctx.param("id")
 		val messages = pacemaker.listMessages(id!!)
 		ctx.json(messages)
+		ctx.status(200)
 	}
 
 }
