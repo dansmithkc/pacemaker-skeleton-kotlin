@@ -3,3 +3,4 @@
 /mvn clean.bat
 /mvn coverageReport.bat
 /coverageReport.txt
+/mvn heroku.bat
