@@ -21,7 +21,7 @@ class PacemakerAPI {
 	}
 
 	fun deleteUsers() {
-		userIndex.clear();
+		userIndex.clear()
 		emailIndex.clear()
 	}
 
@@ -34,9 +34,9 @@ class PacemakerAPI {
 		if (user != null) {
 			activity = Activity(type, location, distance)
 			user.activities[activity.id] = activity
-			activitiesIndex[activity.id] = activity;
+			activitiesIndex[activity.id] = activity
 		}
-		return activity;
+		return activity
 	}
 
 	fun getActivity(id: String): Activity? {
@@ -50,7 +50,7 @@ class PacemakerAPI {
 			for ((u, activity) in user.activities) {
 				activitiesIndex.remove(activity.id)
 			}
-			user.activities.clear();
+			user.activities.clear()
 		}
 	}
 
@@ -71,7 +71,7 @@ class PacemakerAPI {
 			}
 		}
 
-		return activities;
+		return activities
 	}
 
 	fun followFriend(id: String, friendId: String) {

@@ -49,7 +49,7 @@ class PacemakerRestService {
 
 	fun deleteActivities(ctx: ContextWrapper) {
 		val id: String? = ctx.param("id")
-		pacemaker.deleteActivities(id!!);
+		pacemaker.deleteActivities(id!!)
 		ctx.json("ok")
 		ctx.status(204)
 	}

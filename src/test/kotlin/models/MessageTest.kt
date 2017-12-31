@@ -36,7 +36,7 @@ class MessageTest {
 	@Test
 	fun testSetterAndGetter() {
 		message.text = "another"
-		message.component1();
+		message.component1()
 	}
 
 	@Test

@@ -22,15 +22,15 @@ class HerokuUtilsTest {
 	@Test
 	fun testGetHerokuAssignedPortNotDefined() {
 		val processBuilder = ProcessBuilder()
-		val port = herokuUtils.getHerokuAssignedPort(processBuilder);
-		assertEquals(7000, port);
+		val port = herokuUtils.getHerokuAssignedPort(processBuilder)
+		assertEquals(7000, port)
 	}
 
 	@Test
 	fun testGetHerokuAssignedPortWhenDefined() {
 		val processBuilder = ProcessBuilder()
 		processBuilder.environment().put("PORT", "1234")
-		val port = herokuUtils.getHerokuAssignedPort(processBuilder);
-		assertEquals(1234, port);
+		val port = herokuUtils.getHerokuAssignedPort(processBuilder)
+		assertEquals(1234, port)
 	}
 }
